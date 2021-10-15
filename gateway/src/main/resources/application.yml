@@ -1,0 +1,47 @@
+server:
+  port: 2001
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        # 使用jwt令牌配置
+        jwt:
+          jwk-set-uri: 'http://localhost:2002/getPublicKey'
+
+        # 使用不透明的令牌配置
+        opaquetoken:
+          client-id: client
+          client-secret: 123456
+          introspection-uri: 'http://localhost:2002/oauth/check_token'
+  profiles:
+    active: dev
+  application:
+    name: GATEWAY
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        shared-configs:
+          - ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+      discovery:
+        server-addr: 192.168.1.73:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: baidu
+          uri: 'https://www.baidu.com'
+          predicates:
+            - Path=/baidu/**
+          filters:
+            - StripPrefix=1
+        - id: taobao
+          uri: 'https://www.taobao.com'
+          predicates:
+            - Path=/taobao/**
+          filters:
+            - StripPrefix=1
+
+
