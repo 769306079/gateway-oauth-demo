@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.implicit.ImplicitTokenGranter;
 import org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter;
 import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
@@ -90,7 +91,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .userDetailsService(userDetailsService)       //用户信息获取方式，密码模式必须要
 //                .tokenEnhancer(jwtAccessTokenConverter())   //令牌增强,可以设置生成不同类型的token,如jwt
                 .tokenGranter(tokenGranter(endpoints))         //配置grant_type模式，用户可以进行扩展,如果不配置则默认使用密码模式、简化模式、验证码模式以及刷新token模式，如果配置了只使用配置中，默认配置失效
-                .reuseRefreshTokens(false);
+                .reuseRefreshTokens(false)
+                .exceptionTranslator(new CustomizeWebResponseExceptionTranslator());
 
     }
 

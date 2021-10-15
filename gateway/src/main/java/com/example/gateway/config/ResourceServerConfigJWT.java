@@ -1,5 +1,6 @@
 //package com.example.gateway;
 //
+//import com.example.gateway.config.AuthorizationManager;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -27,8 +28,6 @@
 //        http.oauth2ResourceServer().jwt()
 //                .jwtAuthenticationConverter(jwtAuthenticationConverter());
 //
-//        // 自定义处理JWT请求头过期或签名错误的结果
-////        http.oauth2ResourceServer().authenticationEntryPoint(customServerAuthenticationEntryPoint);
 //        http.authorizeExchange()
 //                .anyExchange().access(authorizationManager)
 //                .and().csrf().disable();
